@@ -288,6 +288,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeApp } from "firebase/app";
+
 
         // Global variables provided by the Canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -323,14 +325,20 @@
                     // This fallback will NOT work for Firestore without a real project config.
                     // It's just to prevent immediate script termination if config is missing.
                     // If you are running this outside of Canvas, you MUST replace these with your actual Firebase project details.
-                    app = initializeApp({
-                        apiKey: "YOUR_API_KEY_HERE", // Replace with your actual API key if running standalone
-                        authDomain: "YOUR_AUTH_DOMAIN_HERE",
-                        projectId: "YOUR_PROJECT_ID_HERE",
-                        storageBucket: "YOUR_STORAGE_BUCKET_HERE",
-                        messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
-                        appId: "YOUR_APP_ID_HERE"
-                    });
+                    // Import the functions you need from the SDKs you need
+                   // TODO: Add SDKs for Firebase products that you want to use
+                   // https://firebase.google.com/docs/web/setup#available-libraries
+                   // Your web app's Firebase configuration
+                   const firebaseConfig = {
+                      apiKey: "AIzaSyBsAbVpNHUjoy34mRtwZNpjpzjgGAdjgl0",
+                      authDomain: "porject-smash.firebaseapp.com",
+                      projectId: "porject-smash",
+                      storageBucket: "porject-smash.firebasestorage.app",
+                      messagingSenderId: "923159910686",
+                      appId: "1:923159910686:web:24ae5ac9df5426f5c1510f"
+                   };
+                   // Initialize Firebase
+                   const app = initializeApp(firebaseConfig);
                 } else {
                     // This is the correct path when __firebase_config is provided by Canvas
                     app = initializeApp(firebaseConfig);
