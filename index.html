@@ -33,6 +33,7 @@
          gap: 2rem;
       }
 
+      
       .section-title {
          font-size: 1.5rem;
          font-weight: 700;
@@ -282,7 +283,7 @@
             <p>Nessun ingrediente selezionato.</p>
          </div>
          <div class="total-price" id="total-price">
-            Totale: €0.00
+            Totale: â‚¬0.00
          </div>
          <button id="order-button" class="btn btn-primary w-full mt-6">Invia Ordine</button>
       </div>
@@ -399,7 +400,7 @@
          } catch (error) {
             console.error("Error initializing Firebase or authenticating:", error);
             hideLoading();
-            showMessageModal("Errore di Inizializzazione", "Impossibile connettersi al servizio. Riprova più tardi.");
+            showMessageModal("Errore di Inizializzazione", "Impossibile connettersi al servizio. Riprova piÃ¹ tardi.");
          }
       }
 
@@ -475,7 +476,7 @@
             div.className = 'ingredient-item';
             div.innerHTML = `
                     <input type="radio" name="bread" value="${item.name}" data-price="${item.price}" class="form-radio text-blue-600">
-                    <label>${item.name} (€${item.price.toFixed(2)})</label>
+                    <label>${item.name} (â‚¬${item.price.toFixed(2)})</label>
                 `;
             breadOptionsDiv.appendChild(div);
          });
@@ -486,7 +487,7 @@
             div.className = 'ingredient-item';
             div.innerHTML = `
                     <input type="radio" name="meat" value="${item.name}" data-price="${item.price}" class="form-radio text-blue-600">
-                    <label>${item.name} (€${item.price.toFixed(2)})</label>
+                    <label>${item.name} (â‚¬${item.price.toFixed(2)})</label>
                 `;
             meatOptionsDiv.appendChild(div);
          });
@@ -499,7 +500,7 @@
                div.className = 'ingredient-item';
                div.innerHTML = `
                         <input type="checkbox" name="${category}" value="${item.name}" data-price="${item.price}" class="form-checkbox text-blue-600 rounded">
-                        <label>${item.name} (€${item.price.toFixed(2)})</label>
+                        <label>${item.name} (â‚¬${item.price.toFixed(2)})</label>
                     `;
                targetDiv.appendChild(div);
             });
@@ -563,7 +564,7 @@
          } else {
             selectedIngredientsDiv.innerHTML = summaryHtml;
          }
-         totalPriceSpan.textContent = `Totale: €${total.toFixed(2)}`;
+         totalPriceSpan.textContent = `Totale: â‚¬${total.toFixed(2)}`;
       }
 
       // Show confirmation modal
@@ -613,7 +614,7 @@
                cheese: selectedIngredients.cheese,
                veg: selectedIngredients.veg,
                sauce: selectedIngredients.sauce,
-               totalPrice: parseFloat(totalPriceSpan.textContent.replace('Totale: €', '')),
+               totalPrice: parseFloat(totalPriceSpan.textContent.replace('Totale: â‚¬', '')),
                timestamp: serverTimestamp(),
                userId: userId // Store the user ID for filtering orders
             };
@@ -623,11 +624,11 @@
             const ordersCollectionRef = collection(db, `artifacts/${appId}/public/data/orders`);
             await addDoc(ordersCollectionRef, orderData);
 
-            showMessageModal("Ordine Inviato!", "Il tuo ordine è stato inviato con successo!");
+            showMessageModal("Ordine Inviato!", "Il tuo ordine Ã¨ stato inviato con successo!");
             resetSelection(); // Reset form after successful order
          } catch (error) {
             console.error("Error submitting order:", error);
-            showMessageModal("Errore Ordine", "Si è verificato un errore durante l'invio dell'ordine. Riprova.");
+            showMessageModal("Errore Ordine", "Si Ã¨ verificato un errore durante l'invio dell'ordine. Riprova.");
          } finally {
             hideLoading();
          }
@@ -708,7 +709,7 @@
                   if (order.sauce && order.sauce.length > 0) {
                      orderDetails += `<p><strong>Salse:</strong> ${order.sauce.map(s => s.name).join(', ')}</p>`;
                   }
-                  orderDetails += `<p class="font-bold text-green-600">Totale: €${order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'}</p>`;
+                  orderDetails += `<p class="font-bold text-green-600">Totale: â‚¬${order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'}</p>`;
                   orderDiv.innerHTML = orderDetails;
                   pastOrdersList.appendChild(orderDiv);
                });
