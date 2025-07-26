@@ -288,12 +288,9 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { initializeApp } from "firebase/app";
 
-
-        // Global variables provided by the Canvas environment
+        // Global variables provided by the Canvas environment (ideally)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         let app;
@@ -314,35 +311,25 @@
 
         // Initialize Firebase and authenticate
         async function initializeFirebase() {
-            showLoading();
+            showLoading(); // Mostra l'overlay di caricamento
             try {
-                // IMPORTANT: Do NOT hardcode your Firebase config here.
-                // It is provided by the Canvas environment via __firebase_config.
-                // This block ensures that if __firebase_config is NOT provided (e.g., if running outside Canvas),
-                // it falls back gracefully, but Firestore operations will likely fail without a real project.
-                if (Object.keys(firebaseConfig).length === 0) {
-                    console.error("Firebase config is empty. Please ensure __firebase_config is set in the environment.");
-                    // This fallback will NOT work for Firestore without a real project config.
-                    // It's just to prevent immediate script termination if config is missing.
-                    // If you are running this outside of Canvas, you MUST replace these with your actual Firebase project details.
-                    // Import the functions you need from the SDKs you need
-                   // TODO: Add SDKs for Firebase products that you want to use
-                   // https://firebase.google.com/docs/web/setup#available-libraries
-                   // Your web app's Firebase configuration
-                   const firebaseConfig = {
-                      apiKey: "AIzaSyBsAbVpNHUjoy34mRtwZNpjpzjgGAdjgl0",
-                      authDomain: "porject-smash.firebaseapp.com",
-                      projectId: "porject-smash",
-                      storageBucket: "porject-smash.firebasestorage.app",
-                      messagingSenderId: "923159910686",
-                      appId: "1:923159910686:web:24ae5ac9df5426f5c1510f"
-                   };
-                   // Initialize Firebase
-                   const app = initializeApp(firebaseConfig);
-                } else {
-                    // This is the correct path when __firebase_config is provided by Canvas
-                    app = initializeApp(firebaseConfig);
-                }
+                // *** INCOLLA QUI LA TUA CONFIGURAZIONE FIREBASE REALE ***
+                // QUESTI SONO SOLO DEI SEGNAPOSTO. DEVI SOSTITUIRLI CON I VALORI ESATTI
+                // CHE TROVI NELLA TUA CONSOLE FIREBASE (Impostazioni progetto > Le tue app > La tua app web).
+                const myFirebaseConfig = {
+                  apiKey: "AIzaSyBsAbVpNHUjoy34mRtwZNpjpzjgGAdjgl0",
+                  authDomain: "porject-smash.firebaseapp.com",
+                  projectId: "porject-smash",
+                  storageBucket: "porject-smash.firebasestorage.app",
+                  messagingSenderId: "923159910686",
+                  appId: "1:923159910686:web:24ae5ac9df5426f5c1510f"
+                };
+                // *** FINE CONFIGURAZIONE FIREBASE REALE ***
+
+                console.log("Using Firebase Config:", myFirebaseConfig); // Log per debug
+
+                // Usa la configurazione appena definita
+                app = initializeApp(myFirebaseConfig);
 
                 db = getFirestore(app);
                 auth = getAuth(app);
@@ -361,8 +348,7 @@
                         }
                     }
                     isAuthReady = true;
-                    hideLoading();
-                    // Fetch past orders once authentication is ready
+                    // fetchPastOrders() viene chiamato qui perché dipende dall'autenticazione
                     fetchPastOrders();
                 });
 
@@ -377,8 +363,10 @@
 
             } catch (error) {
                 console.error("Error initializing Firebase or authenticating:", error);
-                hideLoading();
                 showMessageModal("Errore di Inizializzazione", "Impossibile connettersi al servizio. Riprova più tardi.");
+            } finally {
+                // Assicurati che l'overlay di caricamento sia nascosto in ogni caso (successo o fallimento)
+                hideLoading();
             }
         }
 
@@ -570,7 +558,7 @@
         // Handle order submission
         orderButton.addEventListener('click', () => {
             if (!selectedIngredients.bread || !selectedIngredients.meat) {
-                showMessageModal("Selezione Incompleta", "Per favor, seleziona un panino e un tipo di carne.");
+                showMessageModal("Selezione Incompleta", "Per favore, seleziona un panino e un tipo di carne.");
                 return;
             }
             showConfirmationModal();
@@ -701,7 +689,8 @@
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
             renderIngredients();
-            updateOrderSummary(); // Initial summary
+            console.log("Ingredients rendered."); // Aggiunto log per confermare il rendering
+            updateOrderSummary(); // Riepilogo iniziale
             initializeFirebase();
         });
     </script>
