@@ -140,6 +140,7 @@ const messageModalTitle = document.getElementById('messageModalTitle');
 const messageModalText = document.getElementById('messageModalText');
 const messageModalCloseBtn = document.getElementById('messageModalCloseBtn');
 const pastOrdersList = document.getElementById('past-orders-list');
+const username = document.getElementById('username');
 
 // Function to render ingredient options
 function renderIngredients() {
@@ -249,32 +250,46 @@ function updateOrderSummary() {
 
 // Show confirmation modal
 function showConfirmationModal() {
+   confirmationModal.classList.remove('hidden');
+   confirmationModal.classList.add('flex');
    confirmationModal.classList.add('show');
 }
 
 // Hide confirmation modal
 function hideConfirmationModal() {
    confirmationModal.classList.remove('show');
+   confirmationModal.classList.remove('flex');
+   confirmationModal.classList.add('hidden');
 }
 
 // Show generic message modal
 function showMessageModal(title, message) {
    messageModalTitle.textContent = title;
    messageModalText.textContent = message;
+   messageModal.classList.remove('hidden');
+   messageModal.classList.add('flex');
    messageModal.classList.add('show');
 }
 
 // Hide generic message modal
 function hideMessageModal() {
    messageModal.classList.remove('show');
+   messageModal.classList.remove('flex');
+   messageModal.classList.add('hidden');
 }
 
 // Handle order submission
 orderButton.addEventListener('click', () => {
+
    if (!selectedIngredients.bread || !selectedIngredients.meat) {
+      console.log("crash");
       showMessageModal("Selezione Incompleta", "Per favore, seleziona un panino e un tipo di carne.");
       return;
    } 
+   if (username.value.trim() === '') {
+      showMessageModal("Nome Richiesto", "Per favore, inserisci il tuo nome per completare l'ordine.");
+      return;
+   }
    showConfirmationModal();
 });
 
@@ -296,7 +311,7 @@ confirmOrderBtn.addEventListener('click', async () => {
          sauce: selectedIngredients.sauce,
          totalPrice: parseFloat(totalPriceSpan.textContent.replace('Totale: €', '')),
          timestamp: serverTimestamp(),
-         name: username,
+         name: username.value,
          userId: userId // Store the user ID for filtering orders
       };
 
