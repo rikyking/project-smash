@@ -140,7 +140,6 @@ const messageModalTitle = document.getElementById('messageModalTitle');
 const messageModalText = document.getElementById('messageModalText');
 const messageModalCloseBtn = document.getElementById('messageModalCloseBtn');
 const pastOrdersList = document.getElementById('past-orders-list');
-const username = document.getElementById('username').value.trim();
 
 // Function to render ingredient options
 function renderIngredients() {
@@ -275,10 +274,7 @@ orderButton.addEventListener('click', () => {
    if (!selectedIngredients.bread || !selectedIngredients.meat) {
       showMessageModal("Selezione Incompleta", "Per favore, seleziona un panino e un tipo di carne.");
       return;
-   } else if (!username || username.trim() === "") {
-      showMessageModal("Nome Mancante", "Per favore, inserisci il tuo nome prima di procedere.");
-      return;  
-   }
+   } 
    showConfirmationModal();
 });
 
@@ -287,7 +283,7 @@ confirmOrderBtn.addEventListener('click', async () => {
    hideConfirmationModal();
    showLoading();
    try {
-      if (!isAuthReady || !userId || !username) {
+      if (!isAuthReady || !userId) {
          throw new Error("Firebase authentication not ready. Please wait.");
       }
 
