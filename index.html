@@ -15,16 +15,20 @@
         <div class="spinner"></div>
     </div>
 
-    <div class="container">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Crea il Tuo Hamburger Personalizzato</h1>
-        <!-- inserisco uno input per il nome del cliente-->
-         <div class="mb-6">
-               <input type="text" id="customerName" class="form-input w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500" placeholder="Inserisci il tuo nome">  
-         </div>
-         <a href="./adm/index.html">ADMIN</a>
+    <div class="container mx-auto px-4">
+        <div class="header fixed top-0 left-0 w-full flex justify-center items-center bg-red-600 z-[1050] h-20">
+            <div class="text-white font-bold text-xl">PROJECT</div>
+            <img src="./img/unnamed-removebg-preview.png" style="max-height: 60px;">
+            <div class="text-white font-bold text-xl">SMASH</div>
+        </div>
+        <div class="flex flex-col items-center mt-24 ">
+            <input id="username" name="name" type="text" placeholder="Inserisci il tuo nome"
+                class="w-full max-w-xs px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+                autocomplete="off">
+        </div>
         <!-- Sezione Ingredienti -->
         <div id="ingredients-section">
-            <h2 class="section-title">Scegli i Tuoi Ingredienti</h2>
+            <h2 class="section-title text-2xl font-bold mt-8 mb-4">Scegli i Tuoi Ingredienti</h2>
 
             <!-- Panini -->
             <div>
@@ -68,20 +72,20 @@
         </div>
 
         <!-- Riepilogo Ordine -->
-        <div class="order-summary">
-            <h2 class="section-title">Riepilogo Ordine</h2>
+        <div class="order-summary mt-8">
+            <h2 class="section-title text-2xl font-bold mb-4">Riepilogo Ordine</h2>
             <div id="selected-ingredients" class="text-gray-600 mb-4">
                 <p>Nessun ingrediente selezionato.</p>
             </div>
-            <div class="total-price" id="total-price">
+            <div class="total-price font-semibold mb-4" id="total-price">
                 Totale: €0.00
             </div>
-            <button id="order-button" class="btn btn-primary w-full mt-6">Invia Ordine</button>
+            <button id="order-button" class="w-full bg-red-600 text-white py-3 rounded font-bold hover:bg-red-700 transition mt-6">Invia Ordine</button>
         </div>
 
         <!-- Ordini Precedenti -->
-        <div id="past-orders-section">
-            <h2 class="section-title">I Tuoi Ordini Precedenti</h2>
+        <div id="past-orders-section" class="mt-8">
+            <h2 class="section-title text-2xl font-bold mb-4">I Tuoi Ordini Precedenti</h2>
             <div id="past-orders-list" class="order-list">
                 <p class="text-gray-500 text-center">Nessun ordine precedente.</p>
             </div>
@@ -89,29 +93,27 @@
     </div>
 
     <!-- Modale di Conferma -->
-    <div id="confirmationModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Conferma Ordine</h3>
-            <p id="modalMessage">Sei sicuro di voler inviare questo ordine?</p>
-            <div class="modal-buttons">
-                <button id="confirmOrderBtn" class="btn btn-primary">Conferma</button>
-                <button id="cancelOrderBtn" class="btn btn-secondary">Annulla</button>
+    <div id="confirmationModal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+        <div class="modal-content bg-white rounded-lg p-6 shadow-lg">
+            <h3 id="modalTitle" class="text-xl font-bold mb-2">Conferma Ordine</h3>
+            <p id="modalMessage" class="mb-4">Sei sicuro di voler inviare questo ordine?</p>
+            <div class="modal-buttons flex gap-4">
+                <button id="confirmOrderBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Conferma</button>
+                <button id="cancelOrderBtn" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Annulla</button>
             </div>
         </div>
     </div>
 
     <!-- Modale di Messaggio -->
-    <div id="messageModal" class="modal">
-        <div class="modal-content">
-            <h3 id="messageModalTitle">Messaggio</h3>
-            <p id="messageModalText"></p>
-            <button id="messageModalCloseBtn" class="btn btn-primary">Chiudi</button>
+    <div id="messageModal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+        <div class="modal-content bg-white rounded-lg p-6 shadow-lg">
+            <h3 id="messageModalTitle" class="text-xl font-bold mb-2">Messaggio</h3>
+            <p id="messageModalText" class="mb-4"></p>
+            <button id="messageModalCloseBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Chiudi</button>
         </div>
     </div>
 
     <!-- Firebase SDKs -->
-    <script src="./script/script.js" type="module">
-        
-    </script>
+    <script src="./script/script.js" type="module"></script>
 </body>
 </html>
