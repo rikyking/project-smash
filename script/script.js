@@ -140,6 +140,7 @@ const messageModalTitle = document.getElementById('messageModalTitle');
 const messageModalText = document.getElementById('messageModalText');
 const messageModalCloseBtn = document.getElementById('messageModalCloseBtn');
 const pastOrdersList = document.getElementById('past-orders-list');
+const username = document.getElementById('username');
 
 // Function to render ingredient options
 function renderIngredients() {
@@ -249,32 +250,46 @@ function updateOrderSummary() {
 
 // Show confirmation modal
 function showConfirmationModal() {
+   confirmationModal.classList.remove('hidden');
+   confirmationModal.classList.add('flex');
    confirmationModal.classList.add('show');
 }
 
 // Hide confirmation modal
 function hideConfirmationModal() {
    confirmationModal.classList.remove('show');
+   confirmationModal.classList.remove('flex');
+   confirmationModal.classList.add('hidden');
 }
 
 // Show generic message modal
 function showMessageModal(title, message) {
    messageModalTitle.textContent = title;
    messageModalText.textContent = message;
+   messageModal.classList.remove('hidden');
+   messageModal.classList.add('flex');
    messageModal.classList.add('show');
 }
 
 // Hide generic message modal
 function hideMessageModal() {
    messageModal.classList.remove('show');
+   messageModal.classList.remove('flex');
+   messageModal.classList.add('hidden');
 }
 
 // Handle order submission
 orderButton.addEventListener('click', () => {
+
    if (!selectedIngredients.bread || !selectedIngredients.meat) {
+      console.log("crash");
       showMessageModal("Selezione Incompleta", "Per favore, seleziona un panino e un tipo di carne.");
       return;
    } 
+   if (username.value.trim() === '') {
+      showMessageModal("Nome Richiesto", "Per favore, inserisci il tuo nome per completare l'ordine.");
+      return;
+   }
    showConfirmationModal();
 });
 
@@ -296,7 +311,7 @@ confirmOrderBtn.addEventListener('click', async () => {
          sauce: selectedIngredients.sauce,
          totalPrice: parseFloat(totalPriceSpan.textContent.replace('Totale: €', '')),
          timestamp: serverTimestamp(),
-         name: username,
+         name: username.value,
          userId: userId // Store the user ID for filtering orders
       };
 
@@ -372,12 +387,10 @@ function fetchPastOrders() {
          pastOrdersList.innerHTML = '<p class="text-gray-500 text-center">Nessun ordine precedente.</p>';
       } else {
          orders.forEach(order => {
+            console.log(order);
             const orderDiv = document.createElement('div');
             orderDiv.className = 'order-item';
-            let orderDetails = `<p><strong>Ordine ID:</strong> ${order.id.substring(0, 8)}...</p>`;
-            if (order.timestamp) {
-               orderDetails += `<p><strong>Data:</strong> ${new Date(order.timestamp.toDate()).toLocaleString()}</p>`;
-            }
+            let orderDetails = `<p><strong>Nome:</strong> ${order.name}</p>`;
             orderDetails += `<p><strong>Panino:</strong> ${order.bread ? order.bread.name : 'N/A'}</p>`;
             orderDetails += `<p><strong>Carne:</strong> ${order.meat ? order.meat.name : 'N/A'}</p>`;
             if (order.cheese && order.cheese.length > 0) {
@@ -388,6 +401,9 @@ function fetchPastOrders() {
             }
             if (order.sauce && order.sauce.length > 0) {
                orderDetails += `<p><strong>Salse:</strong> ${order.sauce.map(s => s.name).join(', ')}</p>`;
+            }
+            if (order.timestamp) {
+               orderDetails += `<p><strong>Data:</strong> ${new Date(order.timestamp.toDate()).toLocaleString()}</p>`;
             }
             orderDetails += `<p class="font-bold text-green-600">Totale: €${order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'}</p>`;
             orderDiv.innerHTML = orderDetails;
