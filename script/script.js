@@ -87,20 +87,19 @@ async function initializeFirebase() {
 // Data for hamburger ingredients
 const ingredients = {
    bread: [
-      { name: "Panino Classico", price: 1.50 , img: "https://i.pinimg.com/736x/59/55/d7/5955d7947ef09e913248fec8660b3c9c.jpg" },
-      // { name: "Panino al Sesamo", price: 1.75 },
-      // { name: "Panino Integrale", price: 2.00 }
+      { name: "Panino Classico", price: 1.50 },
+      { name: "Panino al Sesamo", price: 1.75 },
+      { name: "Panino Integrale", price: 2.00 }
    ],
    meat: [
       { name: "Manzo (100g)", price: 3.00 },
       { name: "Doppio Manzo (2 X 100g)", price: 5.00 },
-      // { name: "Pollo Grigliato", price: 2.80 },
-      // { name: "Vegetariano", price: 2.50 }
+      { name: "Pollo Grigliato", price: 2.80 },
+      { name: "Vegetariano", price: 2.50 }
    ],
    cheese: [
       { name: "Cheddar", price: 0.80 },
-      // { name: "Mozzarella", price: 0.70 },
-      // { name: "Gorgonzola", price: 1.00 }
+      { name: "Scamorza affumicata", price: 1.00 },
    ],
    veg: [
       { name: "Lattuga", price: 0.30 },
