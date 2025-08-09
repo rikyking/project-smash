@@ -1,7 +1,7 @@
 // Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp , doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // Global variables provided by the Canvas environment (ideally)
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -62,7 +62,7 @@ async function initializeFirebase() {
             }
          }
          isAuthReady = true;
-         // fetchPastOrders() viene chiamato qui perché dipende dall'autenticazione
+         // fetchPastOrders() viene chiamato qui perchÃ© dipende dall'autenticazione
          fetchPastOrders();
       });
 
@@ -77,7 +77,7 @@ async function initializeFirebase() {
 
    } catch (error) {
       console.error("Error initializing Firebase or authenticating:", error);
-      showMessageModal("Errore di Inizializzazione", "Impossibile connettersi al servizio. Riprova più tardi.");
+      showMessageModal("Errore di Inizializzazione", "Impossibile connettersi al servizio. Riprova piÃ¹ tardi.");
    } finally {
       // Assicurati che l'overlay di caricamento sia nascosto in ogni caso (successo o fallimento)
       hideLoading();
@@ -419,6 +419,113 @@ function fetchPastOrders() {
    });
 }
 
+username.addEventListener('change', () => { 
+   if (username.value.toUpperCase().trim() === 'RIC-ADMIN') {
+      // If the username is "RIC-ADMIN", set a special user ID for admin purposes
+      showMessageModal("Accesso Amministratore", "Sei entrato in modalità amministratore. Ora puoi gestire gli ordini.");
+      document.getElementById('welcome-section').classList.add('hidden');
+      document.getElementById('ingredients-section').classList.add('hidden');
+      document.getElementById('orders-section').classList.add('hidden');
+      document.getElementById('past-orders-section').classList.add('hidden');
+      document.getElementById('adm-orders-section').classList.remove('hidden');  
+      // Fetch and render orders for admin
+      fetchAndRenderOrders();
+   }
+
+});
+
+const ordersListDiv = document.getElementById('orders-list');
+
+function renderOrders(orders) {
+    ordersListDiv.innerHTML = ''; // Clear previous orders
+    if (orders.length === 0) {
+        ordersListDiv.innerHTML = '<p class="text-gray-500 text-center col-span-full">Nessun ordine in arrivo.</p>';
+        return;
+    }
+
+    orders.forEach(order => {
+        const orderCard = document.createElement('div');
+       orderCard.className = 'order-card flex flex-col justify-between';
+       orderCard.id = `${order.id}`;
+        
+        // Imposta lo stato predefinito se non esiste (utile per ordini vecchi o senza stato)
+        const currentStatus = order.status || 'pending'; 
+        const statusClass = currentStatus === 'ready' ? 'status-ready' : 'status-pending';
+        const statusText = currentStatus === 'ready' ? 'Pronto' : 'In preparazione';
+
+        const ingredientsList = [
+            order.bread?.name,
+            order.meat?.name,
+            ...(order.cheese || []).map(c => c.name),
+            ...(order.veg || []).map(v => v.name),
+            ...(order.sauce || []).map(s => s.name)
+        ].filter(Boolean).join(', ');
+
+        orderCard.innerHTML = `
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Nome: ${order.name}</h3>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </div>
+                <div class="order-details">
+                    <p><strong>Ingredienti:</strong> ${ingredientsList}</p>
+                    <p><strong>Totale:</strong> €${order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'}</p>
+                    <p><strong>Ora ordine:</strong> ${order.timestamp ? new Date(order.timestamp.toDate()).toLocaleString() : 'N/A'}</p>
+                </div>
+            </div>
+            ${currentStatus !== 'ready' ? `
+                <div class="mt-4">
+                    <button id="order-adm-button" class="w-full bg-red-600 text-white py-3 rounded font-bold hover:bg-red-700 transition mt-6" data-id="${order.id}">Panino pronto</button>
+                </div>
+            ` : ''}
+        `;
+        ordersListDiv.appendChild(orderCard);
+    });
+
+    document.querySelectorAll('#order-adm-button').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const orderId = e.target.dataset.id;
+            await markOrderAsReady(orderId);
+            // Nascondi il pulsante dopo averlo cliccato
+            document.getElementById(orderId).classList.add('hidden');
+        });
+    });
+}
+
+async function markOrderAsReady(orderId) {
+    showLoading();
+    try {
+        const orderRef = doc(db, `artifacts/${appId}/public/data/orders`, orderId);
+        await updateDoc(orderRef, {
+            status: 'ready'
+        });
+        console.log(`Order ${orderId} marked as ready.`);
+    } catch (error) {
+        console.error("Error updating order status:", error);
+        alert("Si è verificato un errore durante l'aggiornamento dell'ordine.");
+    } finally {
+        hideLoading();
+    }
+}
+
+function fetchAndRenderOrders() {
+    const ordersCollectionRef = collection(db, `artifacts/${appId}/public/data/orders`);
+    // Ordina per timestamp in ordine decrescente (i più recenti in alto)
+    const q = query(ordersCollectionRef);
+
+    onSnapshot(q, (snapshot) => {
+        const orders = [];
+        snapshot.forEach(doc => {
+            orders.push({ id: doc.id, ...doc.data() });
+        });
+        renderOrders(orders);
+    }, (error) => {
+        console.error("Error fetching orders:", error);
+        ordersListDiv.innerHTML = '<p class="text-red-500 text-center col-span-full">Errore nel caricamento degli ordini in tempo reale.</p>';
+    });
+}
+
+
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
@@ -426,4 +533,5 @@ document.addEventListener('DOMContentLoaded', () => {
    console.log("Ingredients rendered."); // Aggiunto log per confermare il rendering
    updateOrderSummary(); // Riepilogo iniziale
    initializeFirebase();
+   fetchAndRenderOrders();
 });
