@@ -390,12 +390,20 @@ function fetchPastOrders() {
          pastOrdersList.innerHTML = '<p class="text-gray-500 text-center">Nessun ordine precedente.</p>';
       } else {
          orders.forEach(order => {
+            // Aggiunto log per confermare lo stato dell'ordine
             console.log(order);
             const orderDiv = document.createElement('div');
             orderDiv.className = 'order-item';
+
+            // Determina lo stato e lo stile in base al campo 'status'
+            const status = order.status || 'pending';
+            const statusText = status === 'ready' ? 'Pronto ✅' : 'In preparazione ⏳';
+            const statusColorClass = status === 'ready' ? 'text-green-600' : 'text-yellow-600';
+
             let orderDetails = `<p><strong>Nome:</strong> ${order.name}</p>`;
             orderDetails += `<p><strong>Panino:</strong> ${order.bread ? order.bread.name : 'N/A'}</p>`;
             orderDetails += `<p><strong>Carne:</strong> ${order.meat ? order.meat.name : 'N/A'}</p>`;
+         
             if (order.cheese && order.cheese.length > 0) {
                orderDetails += `<p><strong>Formaggi:</strong> ${order.cheese.map(c => c.name).join(', ')}</p>`;
             }
@@ -405,6 +413,8 @@ function fetchPastOrders() {
             if (order.sauce && order.sauce.length > 0) {
                orderDetails += `<p><strong>Salse:</strong> ${order.sauce.map(s => s.name).join(', ')}</p>`;
             }
+
+            orderDetails += `<p><strong>Stato:</strong> <span class="font-bold ${statusColorClass}">${statusText}</span></p>`;
             if (order.timestamp) {
                orderDetails += `<p><strong>Data:</strong> ${new Date(order.timestamp.toDate()).toLocaleString()}</p>`;
             }
@@ -420,7 +430,7 @@ function fetchPastOrders() {
 }
 
 username.addEventListener('change', () => { 
-   if (username.value.toUpperCase().trim() === 'RIC-ADMIN') {
+   if (username.value.toUpperCase().trim() === 'RIC-ADMIN' || username.value.toUpperCase().trim() === 'ADM-RIC') {
       // If the username is "RIC-ADMIN", set a special user ID for admin purposes
       showMessageModal("Accesso Amministratore", "Sei entrato in modalità amministratore. Ora puoi gestire gli ordini.");
       document.getElementById('welcome-section').classList.add('hidden');
@@ -487,7 +497,7 @@ function renderOrders(orders) {
             const orderId = e.target.dataset.id;
             await markOrderAsReady(orderId);
             // Nascondi il pulsante dopo averlo cliccato
-            document.getElementById(orderId).classList.add('hidden');
+            document.getElementById(orderId).innerHTML = '';
         });
     });
 }
