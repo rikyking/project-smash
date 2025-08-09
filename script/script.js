@@ -1,7 +1,7 @@
 // Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp , doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp , doc, updateDoc , where} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // Global variables provided by the Canvas environment (ideally)
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -87,20 +87,19 @@ async function initializeFirebase() {
 // Data for hamburger ingredients
 const ingredients = {
    bread: [
-      { name: "Panino Classico", price: 1.50 , img: "https://i.pinimg.com/736x/59/55/d7/5955d7947ef09e913248fec8660b3c9c.jpg" },
-      // { name: "Panino al Sesamo", price: 1.75 },
-      // { name: "Panino Integrale", price: 2.00 }
+      { name: "Panino Classico", price: 1.50 },
+      { name: "Panino al Sesamo", price: 1.75 },
+      { name: "Panino Integrale", price: 2.00 }
    ],
    meat: [
       { name: "Manzo (100g)", price: 3.00 },
       { name: "Doppio Manzo (2 X 100g)", price: 5.00 },
-      // { name: "Pollo Grigliato", price: 2.80 },
-      // { name: "Vegetariano", price: 2.50 }
+      { name: "Pollo Grigliato", price: 2.80 },
+      { name: "Vegetariano", price: 2.50 }
    ],
    cheese: [
       { name: "Cheddar", price: 0.80 },
-      // { name: "Mozzarella", price: 0.70 },
-      // { name: "Gorgonzola", price: 1.00 }
+      { name: "Scamorza affumicata", price: 1.00 },
    ],
    veg: [
       { name: "Lattuga", price: 0.30 },
@@ -158,7 +157,6 @@ function renderIngredients() {
       div.className = 'ingredient-item';
       div.innerHTML = `
                     <input type="radio" name="bread" value="${item.name}" data-price="${item.price}" class="form-radio text-blue-600">
-                    <img src="${item.img || ''}" alt="${item.name}" class="w-8 h-8 inline-block mr-2">
                     <label>${item.name} (€${item.price.toFixed(2)})</label>
                 `;
       breadOptionsDiv.appendChild(div);
@@ -314,7 +312,8 @@ confirmOrderBtn.addEventListener('click', async () => {
          totalPrice: parseFloat(totalPriceSpan.textContent.replace('Totale: €', '')),
          timestamp: serverTimestamp(),
          name: username.value,
-         userId: userId // Store the user ID for filtering orders
+         userId: userId,
+         status: 'pending' // Default status for new orders
       };
 
       // Save to Firestore
@@ -521,7 +520,7 @@ async function markOrderAsReady(orderId) {
 function fetchAndRenderOrders() {
     const ordersCollectionRef = collection(db, `artifacts/${appId}/public/data/orders`);
     // Ordina per timestamp in ordine decrescente (i più recenti in alto)
-    const q = query(ordersCollectionRef);
+    const q = query(ordersCollectionRef, where("status", "==", "pending")); // Filtra solo gli ordini in arrivo
 
     onSnapshot(q, (snapshot) => {
         const orders = [];
