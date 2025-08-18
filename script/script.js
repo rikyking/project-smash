@@ -155,9 +155,9 @@ function renderIngredients() {
    ingredients.bread.forEach(item => {
       const div = document.createElement('div');
       div.className = 'ingredient-item';
-      div.innerHTML = `
+      div.innerHTML = `<label>
                     <input type="radio" name="bread" value="${item.name}" data-price="${item.price}" class="form-radio text-blue-600">
-                    <label>${item.name} (€${item.price.toFixed(2)})</label>
+                    ${item.name} (€${item.price.toFixed(2)})</label>
                 `;
       breadOptionsDiv.appendChild(div);
    });
@@ -166,9 +166,9 @@ function renderIngredients() {
    ingredients.meat.forEach(item => {
       const div = document.createElement('div');
       div.className = 'ingredient-item';
-      div.innerHTML = `
+      div.innerHTML = `<label>
                     <input type="radio" name="meat" value="${item.name}" data-price="${item.price}" class="form-radio text-blue-600">
-                    <label>${item.name} (€${item.price.toFixed(2)})</label>
+                    ${item.name} (€${item.price.toFixed(2)})</label>
                 `;
       meatOptionsDiv.appendChild(div);
    });
@@ -179,9 +179,9 @@ function renderIngredients() {
       ingredients[category].forEach(item => {
          const div = document.createElement('div');
          div.className = 'ingredient-item';
-         div.innerHTML = `
+         div.innerHTML = `<label>
                         <input type="checkbox" name="${category}" value="${item.name}" data-price="${item.price}" class="form-checkbox text-blue-600 rounded">
-                        <label>${item.name} (€${item.price.toFixed(2)})</label>
+                        ${item.name} (€${item.price.toFixed(2)})</label>
                     `;
          targetDiv.appendChild(div);
       });
