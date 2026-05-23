@@ -1,129 +1,26 @@
-<!DOCTYPE html>
-<html lang="it">
+<!doctype html>
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Smash</title>
-    <link rel="icon" href="./img/unnamed-removebg-preview.png" type="image/x-icon">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style/style.css">
+
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <title>Project Smash</title>
+  <link rel="icon" href="./unnamed-removebg-preview.png" type="image/x-icon">
+
+
 </head>
+
 <body>
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="container mx-auto px-4">
-        <div class="header fixed top-0 left-0 w-full flex justify-center items-center bg-red-600 z-[1050] h-20">
-            <div class="text-white font-bold text-xl">PROJECT</div>
-            <img src="./img/unnamed-removebg-preview.png" style="max-height: 60px;">
-            <div class="text-white font-bold text-xl">SMASH</div>
-        </div>
-        <div class="flex flex-col items-center mt-24" id="welcome-section">
-            <input id="username" name="name" type="text" placeholder="Inserisci il tuo nome"
-                class="w-full max-w-xs px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition"
-                autocomplete="off">
-        </div>
-        <!-- Sezione Amministrazione Ordini -->
-        <div class="container-admin mb-10 px-4 mt-24 pb-8 hidden" id="adm-orders-section">
-            <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Pannello di Amministrazione Ordini</h1>
-        
-            <div id="orders-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
-                <p class="text-gray-500 text-center col-span-full">Caricamento ordini in corso...</p>
-            </div>
-        </div>
-        <!-- Sezione Ingredienti -->
-        <div id="ingredients-section">
-            <h2 class="section-title text-2xl font-bold mt-8 mb-4">Scegli i Tuoi Ingredienti</h2>
-
-            <!-- Panini -->
-            <div>
-                <h3 class="font-semibold text-lg text-gray-700 mb-3">Panino</h3>
-                <div class="ingredient-group" id="bread-options">
-                    <!-- Options will be dynamically loaded here -->
-                </div>
-            </div>
-
-            <!-- Carne -->
-            <div>
-                <h3 class="font-semibold text-lg text-gray-700 mb-3 mt-6">Carne</h3>
-                <div class="ingredient-group" id="meat-options">
-                    <!-- Options will be dynamically loaded here -->
-                </div>
-            </div>
-
-            <!-- Formaggi -->
-            <div>
-                <h3 class="font-semibold text-lg text-gray-700 mb-3 mt-6">Formaggi</h3>
-                <div class="ingredient-group" id="cheese-options">
-                    <!-- Options will be dynamically loaded here -->
-                </div>
-            </div>
-
-            <!-- Verdure -->
-            <div>
-                <h3 class="font-semibold text-lg text-gray-700 mb-3 mt-6">Condimenti</h3>
-                <div class="ingredient-group" id="veg-options">
-                    <!-- Options will be dynamically loaded here -->
-                </div>
-            </div>
-
-            <!-- Salse -->
-            <div>
-                <h3 class="font-semibold text-lg text-gray-700 mb-3 mt-6">Salse</h3>
-                <div class="ingredient-group" id="sauce-options">
-                    <!-- Options will be dynamically loaded here -->
-                </div>
-            </div>
-        </div>
-        
-
-        <!-- Riepilogo Ordine -->
-        <div class="order-summary mt-8" id="orders-section">
-            <h2 class="section-title text-2xl font-bold mb-4">Riepilogo Ordine</h2>
-            <div id="selected-ingredients" class="text-gray-600 mb-4">
-                <p>Nessun ingrediente selezionato.</p>
-            </div>
-            <div class="total-price font-semibold mb-4" id="total-price">
-                Totale: €0.00
-            </div>
-            <button id="order-button" class="w-full bg-red-600 text-white py-3 rounded font-bold hover:bg-red-700 transition mt-6">Invia Ordine</button>
-        </div>
-
-        <!-- Ordini Precedenti -->
-        <div id="past-orders-section" class="mt-8">
-            <h2 class="section-title text-2xl font-bold mb-4">I Tuoi Ordini Precedenti</h2>
-            <div id="past-orders-list" class="order-list">
-                <p class="text-gray-500 text-center">Nessun ordine precedente.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modale di Conferma -->
-    <div id="confirmationModal" class="modal fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden z-50">
-        <div class="modal-content bg-white rounded-lg p-6 shadow-lg">
-            <h3 id="modalTitle" class="text-xl font-bold mb-2">Conferma Ordine</h3>
-            <p id="modalMessage" class="mb-4">Sei sicuro di voler inviare questo ordine?</p>
-            <div class="modal-buttons flex gap-4">
-                <button id="confirmOrderBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Conferma</button>
-                <button id="cancelOrderBtn" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Annulla</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modale di Messaggio -->
-    <div id="messageModal" class="modal fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden z-50">
-        <div class="modal-content bg-white rounded-lg p-6 shadow-lg">
-            <h3 id="messageModalTitle" class="text-xl font-bold mb-2">Messaggio</h3>
-            <p id="messageModalText" class="mb-4"></p>
-            <button id="messageModalCloseBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Chiudi</button>
-        </div>
-    </div>
-
-    <!-- Firebase SDKs -->
-    <script src="./script/script.js" type="module"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
+
 </html>
