@@ -1,10 +1,12 @@
+import logo from '/unnamed-removebg-preview.png';
+
 export default function Header() { 
    return (
       <header className="top-header">
         <div className="brand">
           <span className="brand-text">PROJECT</span>
           <img
-            src="../assets/unnamed-removebg-preview.png"
+            src={logo}
             alt="Smash Burger"
             className="brand-logo"
           />
