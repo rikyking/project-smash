@@ -1,16 +1,23 @@
-import type { Ingredient } from "../data/ingredients";
-import type { Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
+
+export interface SelectedItem {
+  name: string;
+  price: number;
+}
 
 export interface Order {
-  id: string;
-  name: string;
-  bread: Ingredient | null;
-  meat: Ingredient | null;
-  cheese: Ingredient[];
-  veg: Ingredient[];
-  sauce: Ingredient[];
-  totalPrice: number;
-  status: "pending" | "ready";
-  timestamp: Timestamp | null;
-  userId: string;
+  id?: string;
+  timestamp?: Timestamp | null;
+  userName?: string;
+  username?: string;
+  name?: string;
+  totalPrice?: number;
+  total?: number;
+  status?: string;
+  createdAt?: Timestamp | null;
+  readyAt?: string;
+  bread?: SelectedItem;
+  meat?: SelectedItem;
+  cheese?: SelectedItem[];
+  sauce?: SelectedItem[];
 }

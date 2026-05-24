@@ -9,23 +9,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-
-interface OrderItem {
-  name: string;
-  price: number;
-}
-
-interface Order {
-  id: string;
-  userName?: string;
-  username?: string;
-  totalPrice?: number;
-  total?: number;
-  status?: string;
-  createdAt?: unknown;
-  ingredients?: OrderItem[];
-  selectedIngredients?: OrderItem[];
-}
+import type { Order } from "../../types/order";
 
 export default function AdminPanel() {
   const [adminName, setAdminName] = useState("Admin");
@@ -54,7 +38,15 @@ export default function AdminPanel() {
   }, []);
 
   useEffect(() => {
-    const ordersRef = collection(db, "artifacts", "default-app-id", "public", "data", "orders");
+    const ordersRef = collection(
+      db,
+      "artifacts",
+      "default-app-id",
+      "public",
+      "data",
+      "orders"
+    );
+
     const q = query(ordersRef, where("status", "==", "pending"));
 
     const unsubscribe = onSnapshot(
@@ -62,8 +54,8 @@ export default function AdminPanel() {
       (snapshot) => {
         const pendingOrders: Order[] = snapshot.docs.map((docSnap) => ({
           id: docSnap.id,
-          ...docSnap.data(),
-        })) as Order[];
+          ...(docSnap.data() as Omit<Order, "id">),
+        }));
 
         setOrders(pendingOrders);
         setIsLoading(false);
@@ -80,7 +72,16 @@ export default function AdminPanel() {
 
   async function handleMarkReady(orderId: string) {
     try {
-      const orderRef = doc(db, "artifacts", "default-app-id", "public", "data", "orders", orderId);
+      const orderRef = doc(
+        db,
+        "artifacts",
+        "default-app-id",
+        "public",
+        "data",
+        "orders",
+        orderId
+      );
+
       await updateDoc(orderRef, {
         status: "ready",
         readyAt: new Date().toISOString(),
@@ -96,7 +97,7 @@ export default function AdminPanel() {
         <div className="brand">
           <span className="brand-text">PROJECT</span>
           <img
-            src="../../unnamed-removebg-preview.png"
+            src="/unnamed-removebg-preview.png"
             alt="Smash Burger"
             className="brand-logo"
           />
@@ -124,42 +125,79 @@ export default function AdminPanel() {
             ) : (
               <div className="admin-orders-grid">
                 {orders.map((order) => {
-                  const displayName = order.userName || order.username || "Utente";
                   const displayTotal = order.totalPrice ?? order.total ?? 0;
-                  const displayIngredients =
-                    order.selectedIngredients ?? order.ingredients ?? [];
+                  const bread = order.bread;
+                  const meat = order.meat;
+                  const cheese = Array.isArray(order.cheese) ? order.cheese : [];
+                  const sauce = Array.isArray(order.sauce) ? order.sauce : [];
+                  const orderName = order.name;
 
                   return (
                     <article key={order.id} className="admin-order-card">
                       <div className="admin-order-top">
-                        <h3 className="admin-order-name">{displayName}</h3>
+                        <h4 className="admin-order-time">
+                          Order time:{" "}
+                          {order.timestamp
+                            ? order.timestamp.toDate().toLocaleTimeString()
+                            : "--:--"}
+                        </h4>
                         <span className="admin-order-status">In attesa</span>
                       </div>
 
                       <div className="admin-order-body">
+                        {orderName && (
+                          <p>
+                            <strong>Ordine:</strong> {orderName}
+                          </p>
+                        )}
+
                         <p>
                           <strong>Totale:</strong> € {Number(displayTotal).toFixed(2)}
                         </p>
 
                         <div>
-                          <strong>Ingredienti:</strong>
-                          {displayIngredients.length > 0 ? (
-                            <ul className="admin-ingredients-list">
-                              {displayIngredients.map((item, index) => (
-                                <li key={`${order.id}-${item.name}-${index}`}>
-                                  {item.name} (€ {Number(item.price).toFixed(2)})
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <p className="admin-order-muted">Nessun dettaglio ingredienti.</p>
-                          )}
+                          <strong>Dettaglio ordine:</strong>
+
+                          <ul className="admin-ingredients-list">
+                            {bread && (
+                              <li>
+                                <strong>Pane:</strong> {bread.name}
+                              </li>
+                            )}
+
+                            {meat && (
+                              <li>
+                                <strong>Carne:</strong> {meat.name}
+                              </li>
+                            )}
+
+                            {cheese.map((item, index) => (
+                              <li key={`${order.id}-cheese-${index}`}>
+                                <strong>Formaggio:</strong> {item.name}
+                              </li>
+                            ))}
+
+                            {sauce.map((item, index) => (
+                              <li key={`${order.id}-sauce-${index}`}>
+                                <strong>Salsa:</strong> {item.name}
+                              </li>
+                            ))}
+                          </ul>
+
+                          {!bread &&
+                            !meat &&
+                            cheese.length === 0 &&
+                            sauce.length === 0 && (
+                              <p className="admin-order-muted">
+                                Nessun dettaglio disponibile.
+                              </p>
+                            )}
                         </div>
                       </div>
 
                       <button
                         className="btn btn-primary"
-                        onClick={() => handleMarkReady(order.id)}
+                        onClick={() => order.id && handleMarkReady(order.id)}
                       >
                         Segna come pronto
                       </button>

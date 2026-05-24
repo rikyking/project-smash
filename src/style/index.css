@@ -432,10 +432,11 @@ body {
   gap: 1rem;
 }
 
-.admin-order-name {
+.admin-order-time {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: #1f2937;
+  font-weight: 700;
 }
 
 .admin-order-status {
