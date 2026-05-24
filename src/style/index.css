@@ -86,7 +86,6 @@ body {
 #username,
 .admin-input {
   width: 100%;
-  max-width: 320px;
   padding: 0.95rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
