@@ -7,6 +7,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import MessageModal from "./MessageModal";
 import PastOrders from "./PastOrders";
 import LoadingOverlay from "./LoadingOverlay";
+import Header from "./Header";
 
 interface Props {
   userId: string;
@@ -106,18 +107,7 @@ export default function MainContent({ userId }: Props) {
       {isLoading && <LoadingOverlay />}
 
       <div className="page-shell">
-        <header className="top-header">
-          <div className="brand">
-            <span className="brand-text">PROJECT</span>
-            <img
-              src="/unnamed-removebg-preview.png"
-              alt="Smash Burger"
-              className="brand-logo"
-            />
-            <span className="brand-text">SMASH</span>
-          </div>
-        </header>
-
+        <Header />
         <main className="main-wrapper">
           <div className="container">
             <section className="intro-section">

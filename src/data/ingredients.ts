@@ -13,15 +13,16 @@ export interface IngredientsData {
 
 export const ingredients: IngredientsData = {
   bread: [
-    { name: "Panino Classico", price: 1.50 },
+    { name: "Pane dolce", price: 1.50 },
     { name: "Panino al Sesamo", price: 1.75 },
-    { name: "Panino Integrale", price: 2.00 },
+    // { name: "Panino Integrale", price: 2.00 },
   ],
   meat: [
     { name: "Manzo (100g)", price: 3.00 },
-    { name: "Doppio Manzo (2 X 100g)", price: 5.00 },
-    { name: "Pollo Grigliato", price: 2.80 },
-    { name: "Vegetariano", price: 2.50 },
+    { name: "Scusate siamo povere c'è solo il Manzo", price: 0 },
+    // { name: "Doppio Manzo (2 X 100g)", price: 5.00 },
+    // { name: "Pollo Grigliato", price: 2.80 },
+    // { name: "Vegetariano", price: 2.50 },
   ],
   cheese: [
     { name: "Cheddar", price: 0.80 },
@@ -31,7 +32,7 @@ export const ingredients: IngredientsData = {
     { name: "Lattuga", price: 0.30 },
     { name: "Pomodoro", price: 0.40 },
     { name: "Cipolla croccante", price: 0.60 },
-    { name: "Bacon Croccante", price: 1.20 },
+    { name: "Bacon Super Croccante", price: 1.20 },
   ],
   sauce: [
     { name: "Ketchup", price: 0.20 },
