@@ -125,7 +125,7 @@ export default function AdminPanel() {
             ) : (
               <div className="admin-orders-grid">
                 {orders.map((order) => {
-                  const displayTotal = order.totalPrice ?? order.total ?? 0;
+                  const displayTotal = order.totalPrice ?? 0;
                   const bread = order.bread;
                   const meat = order.meat;
                   const cheese = Array.isArray(order.cheese) ? order.cheese : [];
