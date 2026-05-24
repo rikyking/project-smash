@@ -4,7 +4,7 @@ export default function Header() {
         <div className="brand">
           <span className="brand-text">PROJECT</span>
           <img
-            src="./src/assets/unnamed-removebg-preview.png"
+            src="../src/assets/unnamed-removebg-preview.png"
             alt="Smash Burger"
             className="brand-logo"
           />
