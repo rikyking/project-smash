@@ -58,3 +58,6 @@ Thumbs.db
 # Misc
 .yarn-integrity
 .dataconnect
+
+deleteAllUsers.py
+serviceAccountKey.json

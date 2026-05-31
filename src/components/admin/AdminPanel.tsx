@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import {
   collection,
@@ -12,9 +14,12 @@ import {
 import type { Order } from "../../types/order";
 
 export default function AdminPanel() {
+  const navigate = useNavigate();
+
   const [adminName, setAdminName] = useState("Admin");
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     async function loadAdminProfile() {
@@ -91,9 +96,21 @@ export default function AdminPanel() {
     }
   }
 
+  async function handleLogout() {
+    try {
+      setIsLoggingOut(true);
+      await signOut(auth);
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Errore logout admin:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
+
   return (
     <div className="page-shell admin-page">
-      <header className="top-header">
+      <header className="top-header top-header--with-actions">
         <div className="brand">
           <span className="brand-text">PROJECT</span>
           <img
@@ -102,6 +119,19 @@ export default function AdminPanel() {
             className="brand-logo"
           />
           <span className="brand-text">SMASH</span>
+        </div>
+
+        <div className="header-actions">
+          <span className="header-user">Admin: {adminName}</span>
+
+          <button
+            type="button"
+            className="btn btn-logout"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            {isLoggingOut ? "Uscita..." : "Logout"}
+          </button>
         </div>
       </header>
 
@@ -152,7 +182,8 @@ export default function AdminPanel() {
                         )}
 
                         <p>
-                          <strong>Totale:</strong> € {Number(displayTotal).toFixed(2)}
+                          <strong>Totale:</strong> €{" "}
+                          {Number(displayTotal).toFixed(2)}
                         </p>
 
                         <div>

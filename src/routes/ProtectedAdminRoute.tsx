@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type {  User } from "firebase/auth";
-import  { onAuthStateChanged } from "firebase/auth";
+import type { User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { isUserAdmin } from "../services/adminAuth";
@@ -33,7 +33,7 @@ export default function ProtectedAdminRoute({ children }: Props) {
   if (isChecking) return <LoadingOverlay />;
 
   if (!isAllowed) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
