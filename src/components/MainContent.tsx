@@ -10,11 +10,11 @@ import LoadingOverlay from "./LoadingOverlay";
 
 interface Props {
   userId: string;
+  userName: string;
 }
 
-export default function MainContent({ userId }: Props) {
+export default function MainContent({ userId, userName }: Props) {
   const [selected, setSelected] = useState<SelectedIngredients>(emptySelection);
-  const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [message, setMessage] = useState<{ title: string; text: string } | null>(null);
@@ -53,14 +53,6 @@ export default function MainContent({ userId }: Props) {
       return;
     }
 
-    if (!username.trim()) {
-      setMessage({
-        title: "Nome richiesto",
-        text: "Inserisci il tuo nome per completare l'ordine.",
-      });
-      return;
-    }
-
     setShowConfirm(true);
   }
 
@@ -78,7 +70,7 @@ export default function MainContent({ userId }: Props) {
         sauce: selected.sauce,
         totalPrice: total,
         timestamp: serverTimestamp(),
-        name: username.trim(),
+        name: userName,
         userId,
         status: "pending",
       });
@@ -89,7 +81,6 @@ export default function MainContent({ userId }: Props) {
       });
 
       setSelected(emptySelection);
-      setUsername("");
     } catch (error) {
       console.error("Errore invio ordine:", error);
       setMessage({
@@ -107,13 +98,7 @@ export default function MainContent({ userId }: Props) {
 
       <div className="container">
         <section className="intro-section">
-          <input
-            type="text"
-            id="username"
-            placeholder="Inserisci il tuo nome"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <h1 className="section-title">Ciao, {userName}</h1>
         </section>
 
         <section>

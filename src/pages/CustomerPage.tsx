@@ -20,10 +20,10 @@ export default function CustomerPage() {
 
   return (
     <div className="page-shell">
-      <Header userLabel={`Ciao, ${user?.displayName || "Utente"}`} />
+      <Header showLogout={true} />
 
       <main className="main-wrapper">
-        <MainContent userId={userId} />
+        <MainContent userId={userId} userName={user?.displayName || "Utente"} />
       </main>
     </div>
   );

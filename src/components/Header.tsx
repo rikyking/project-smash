@@ -6,9 +6,10 @@ import logo from '/unnamed-removebg-preview.png';
 
 interface Props {
   userLabel?: string;
+  showLogout?: boolean;
 }
 
-export default function Header({ userLabel }: Props) {
+export default function Header({ userLabel, showLogout }: Props) {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -24,8 +25,10 @@ export default function Header({ userLabel }: Props) {
     }
   };
 
+  const hasActions = userLabel || showLogout;
+
   return (
-    <header className={`top-header ${userLabel ? 'top-header--with-actions' : ''}`}>
+    <header className={`top-header ${hasActions ? 'top-header--with-actions' : ''}`}>
       <div className="brand">
         <span className="brand-text">PROJECT</span>
         <img
@@ -36,17 +39,19 @@ export default function Header({ userLabel }: Props) {
         <span className="brand-text">SMASH</span>
       </div>
 
-      {userLabel && (
+      {hasActions && (
         <div className="header-actions">
-          <span className="header-user">{userLabel}</span>
-          <button
-            type="button"
-            className="btn btn-logout"
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-          >
-            {isLoggingOut ? 'Uscita...' : 'Logout'}
-          </button>
+          {userLabel && <span className="header-user">{userLabel}</span>}
+          {showLogout && (
+            <button
+              type="button"
+              className="btn btn-logout"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              {isLoggingOut ? 'Uscita...' : 'Logout'}
+            </button>
+          )}
         </div>
       )}
     </header>
