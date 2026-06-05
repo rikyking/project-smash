@@ -23,7 +23,7 @@ export default function CustomerPage() {
       <Header userLabel={user?.displayName || user?.email || "Utente"} />
 
       <main className="main-wrapper">
-        <MainContent userId={userId} />
+        <MainContent userId={userId} userName={user?.displayName || user?.email || "Utente"} />
       </main>
     </div>
   );
