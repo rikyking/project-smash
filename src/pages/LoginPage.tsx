@@ -8,6 +8,8 @@ import type { AuthError } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import showIcon from "../assets/show.png";
+import hideIcon from "../assets/hide.png";
 
 type Mode = "login" | "register";
 
@@ -20,6 +22,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   function switchMode(nextMode: Mode) {
     setMode(nextMode);
@@ -182,17 +185,27 @@ export default function LoginPage() {
 
             <div className="auth-field">
               <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Min. 6 caratteri"
-                required
-                autoComplete={
-                  mode === "login" ? "current-password" : "new-password"
-                }
-              />
+              <div className="password-field-wrapper">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Min. 6 caratteri"
+                  required
+                  autoComplete={
+                    mode === "login" ? "current-password" : "new-password"
+                  }
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                >
+                  <img src={showPassword ? hideIcon : showIcon} alt={showPassword ? 'Nascondi password' : 'Mostra password'} />
+                </button>
+              </div>
             </div>
 
             {error && <p className="auth-error">{error}</p>}
