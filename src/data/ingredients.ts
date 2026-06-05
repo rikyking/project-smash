@@ -1,6 +1,7 @@
 export interface Ingredient {
   name: string;
   price: number;
+  image: string;
 }
 
 export interface IngredientsData {
@@ -13,32 +14,71 @@ export interface IngredientsData {
 
 export const ingredients: IngredientsData = {
   bread: [
-    { name: "Pane dolce", price: 1.50 },
-    { name: "Panino al Sesamo", price: 1.75 },
+    { name: "Pane dolce", price: 1.50 , image: "../public/panino.jpg" },
+    // {
+    //   name: "Panino al Sesamo", price: 1.75,
+    //   image: ""
+    // },
     // { name: "Panino Integrale", price: 2.00 },
   ],
   meat: [
-    { name: "Manzo (100g)", price: 3.00 },
-    { name: "Scusate siamo povere c'è solo il Manzo", price: 0 },
+    {
+      name: "Manzo (150g)", price: 3.00,
+      image: "../public/manzo.png"
+    },
+    // {
+    //   name: "Scusate siamo povere c'è solo il Manzo", price: 0,
+    //   image: ""
+    // },
     // { name: "Doppio Manzo (2 X 100g)", price: 5.00 },
     // { name: "Pollo Grigliato", price: 2.80 },
     // { name: "Vegetariano", price: 2.50 },
   ],
   cheese: [
-    { name: "Cheddar", price: 0.80 },
-    { name: "Scamorza affumicata", price: 1.00 },
+    {
+      name: "Cheddar", price: 0.80,
+      image: "../public/cheddar.png"
+    },
+    // {
+    //   name: "Scamorza affumicata", price: 1.00,
+    //   image: ""
+    // },
   ],
   veg: [
-    { name: "Lattuga", price: 0.30 },
-    { name: "Pomodoro", price: 0.40 },
-    { name: "Cipolla croccante", price: 0.60 },
-    { name: "Bacon Super Croccante", price: 1.20 },
+    {
+      name: "Lattuga", price: 0.30,
+      image: "../public/lattuga.webp"
+    },
+    {
+      name: "Pomodoro", price: 0.40,
+      image: "../public/pomodoro.png"
+    },
+    {
+      name: "Cipolla croccante", price: 0.60,
+      image: "../public/cipolla.png"
+    },
+    {
+      name: "Bacon Super Croccante", price: 1.20,
+      image: "../public/bacon.png"
+    },
   ],
   sauce: [
-    { name: "Ketchup", price: 0.20 },
-    { name: "Maionese", price: 0.20 },
-    { name: "Salsa BBQ", price: 0.50 },
-    { name: "Salsa Speciale", price: 0.70 },
+    {
+      name: "Ketchup", price: 0.20,
+      image: "../public/ketchup.png"
+    },
+    {
+      name: "Maionese", price: 0.20,
+      image: "../public/maionese.png"
+    },
+    {
+      name: "Salsa BBQ", price: 0.50,
+      image: "../public/salsa-bbq.png"
+    },
+    {
+      name: "Salsa Speciale", price: 0.70,
+      image: "../public/salsa-speciale.png"
+    },
   ],
 };
 

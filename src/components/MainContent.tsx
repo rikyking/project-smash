@@ -109,6 +109,7 @@ export default function MainContent({ userId, userName }: Props) {
             <div className="ingredient-group">
               {ingredients.bread.map((item) => (
                 <label key={item.name} className="ingredient-item">
+                  <img src={item.image} alt={item.name} className="ingredient-image" />
                   <input
                     type="radio"
                     name="bread"
@@ -126,6 +127,7 @@ export default function MainContent({ userId, userName }: Props) {
             <div className="ingredient-group">
               {ingredients.meat.map((item) => (
                 <label key={item.name} className="ingredient-item">
+                  <img src={item.image} alt={item.name} className="ingredient-image" />
                   <input
                     type="radio"
                     name="meat"
@@ -143,6 +145,7 @@ export default function MainContent({ userId, userName }: Props) {
             <div className="ingredient-group">
               {ingredients.cheese.map((item) => (
                 <label key={item.name} className="ingredient-item">
+                  <img src={item.image} alt={item.name} className="ingredient-image" />
                   <input
                     type="checkbox"
                     checked={selected.cheese.some((i) => i.name === item.name)}
@@ -161,6 +164,7 @@ export default function MainContent({ userId, userName }: Props) {
             <div className="ingredient-group">
               {ingredients.veg.map((item) => (
                 <label key={item.name} className="ingredient-item">
+                  <img src={item.image} alt={item.name} className="ingredient-image" />
                   <input
                     type="checkbox"
                     checked={selected.veg.some((i) => i.name === item.name)}
@@ -177,6 +181,7 @@ export default function MainContent({ userId, userName }: Props) {
             <div className="ingredient-group">
               {ingredients.sauce.map((item) => (
                 <label key={item.name} className="ingredient-item">
+                  <img src={item.image} alt={item.name} className="ingredient-image" />
                   <input
                     type="checkbox"
                     checked={selected.sauce.some((i) => i.name === item.name)}
