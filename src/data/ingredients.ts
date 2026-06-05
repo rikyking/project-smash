@@ -76,8 +76,8 @@ export const ingredients: IngredientsData = {
       image: "../public/salsa-bbq.png"
     },
     {
-      name: "Salsa Speciale", price: 0.70,
-      image: "../public/salsa-speciale.png"
+      name: "Salsa Burger", price: 0.70,
+      image: "../public/salsa-burger.png"
     },
   ],
 };
