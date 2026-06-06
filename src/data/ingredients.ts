@@ -65,10 +65,10 @@ export const ingredients: IngredientsData = {
       name: "Pomodoro", price: 0.40,
       image: pomodoriImg
     },
-    {
-      name: "Cipolla croccante", price: 0.60,
-      image: cipollaImg
-    },
+    //{
+    //  name: "Cipolla croccante", price: 0.60,
+    //  image: cipollaImg
+    //},
     {
       name: "Bacon Super Croccante", price: 1.20,
       image: baconImg
