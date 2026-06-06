@@ -122,8 +122,6 @@ export default function AdminPanel() {
         </div>
 
         <div className="header-actions">
-          <span className="header-user">Admin: {adminName}</span>
-
           <button
             type="button"
             className="btn btn-logout"

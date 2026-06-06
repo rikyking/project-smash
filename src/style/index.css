@@ -50,6 +50,20 @@ body {
   letter-spacing: 0.03em;
 }
 
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.brand-link:hover {
+  opacity: 0.9;
+}
+
 .brand-text {
   font-size: 1.9rem;
   line-height: 1;
@@ -513,6 +527,9 @@ body {
 .top-header--with-actions {
   justify-content: center;
   position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .header-actions {
@@ -686,6 +703,110 @@ body {
   text-overflow: ellipsis;
 }
 
+/* Hamburger Menu */
+.user-menu-container {
+  position: relative;
+}
+
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  gap: 5px;
+  transition: opacity 0.2s ease;
+}
+
+.hamburger-btn:hover {
+  opacity: 0.8;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.user-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+}
+
+.user-menu {
+  position: fixed;
+  top: 88px;
+  right: -280px;
+  width: 280px;
+  height: calc(100vh - 88px);
+  background-color: #ffffff;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+}
+
+.user-menu--open {
+  right: 0;
+}
+
+.user-menu-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.user-menu-item {
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+}
+
+.user-menu-item:hover {
+  background-color: #f9fafb;
+  color: #e32020;
+}
+
+.user-menu-item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.user-menu-item--link {
+  color: #1f2937;
+}
+
+.user-menu-item--logout {
+  color: #e32020;
+  font-weight: 600;
+}
+
+.user-menu-item--logout:hover {
+  background-color: #fef2f2;
+}
+
+.user-menu-divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 0.5rem 0;
+}
+
 /* Desktop medio / tablet landscape */
 @media (max-width: 1200px) {
   .container {
@@ -774,6 +895,10 @@ body {
   }
 
   .brand {
+    gap: 0.4rem;
+  }
+
+  .brand-link {
     gap: 0.4rem;
   }
 

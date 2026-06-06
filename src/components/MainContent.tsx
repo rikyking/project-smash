@@ -5,7 +5,6 @@ import { ingredients, emptySelection } from "../data/ingredients";
 import type { SelectedIngredients, Ingredient } from "../data/ingredients";
 import ConfirmationModal from "./ConfirmationModal";
 import MessageModal from "./MessageModal";
-import PastOrders from "./PastOrders";
 import LoadingOverlay from "./LoadingOverlay";
 
 interface Props {
@@ -77,7 +76,7 @@ export default function MainContent({ userId, userName }: Props) {
 
       setMessage({
         title: "Ordine inviato",
-        text: "Il tuo ordine è stato inviato con successo.",
+        text: "Trovi i dettagli e lo stato nella sezione 'I miei ordini'.",
       });
 
       setSelected(emptySelection);
@@ -232,7 +231,7 @@ export default function MainContent({ userId, userName }: Props) {
           </button>
         </section>
 
-        <PastOrders userId={userId} />
+        {/* <PastOrders userId={userId} /> */}
       </div>
 
       {showConfirm && (

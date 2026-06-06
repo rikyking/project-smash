@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CustomerPage from "./pages/CustomerPage";
 import LoginPage from "./pages/LoginPage";
+import PastOrdersPage from "./pages/PastOrdersPage";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
 import AdminPanel from "./components/admin/AdminPanel";
 
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<CustomerPage />} />
+        <Route path="/past-orders" element={<PastOrdersPage />} />
         <Route
           path="/admin/dashboard"
           element={
