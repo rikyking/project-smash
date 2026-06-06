@@ -3,7 +3,7 @@ import manzoImg from '../assets/manzo.png';
 import cheddarImg from '../assets/cheddar.png';
 import lattugaImg from '../assets/lattuga.webp';
 import pomodoriImg from '../assets/pomodoro.png';
-import cipollaImg from '../assets/cipolla.png';
+//import cipollaImg from '../assets/cipolla.png';
 import baconImg from '../assets/bacon.png';
 import ketchupImg from '../assets/ketchup.png';
 import maioneseImg from '../assets/maionese.png';
