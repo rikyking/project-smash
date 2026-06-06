@@ -57,10 +57,16 @@ export default function AdminPanel() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const pendingOrders: Order[] = snapshot.docs.map((docSnap) => ({
-          id: docSnap.id,
-          ...(docSnap.data() as Omit<Order, "id">),
-        }));
+        const pendingOrders: Order[] = snapshot.docs
+          .map((docSnap) => ({
+            id: docSnap.id,
+            ...(docSnap.data() as Omit<Order, "id">),
+          }))
+          .sort((a, b) => {
+            const timeA = a.timestamp?.toDate().getTime() ?? 0;
+            const timeB = b.timestamp?.toDate().getTime() ?? 0;
+            return timeA - timeB; // Più vecchi prima (asc)
+          });
 
         setOrders(pendingOrders);
         setIsLoading(false);
